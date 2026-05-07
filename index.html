@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>マイディスクへ戻る</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#1565ff">
+
+<link rel="apple-touch-icon" href="icon.png">
+
+<style>
+
+body{
+    margin:0;
+    background:#f0f4ff;
+    font-family:sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    width:90%;
+    max-width:450px;
+    border-radius:30px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+
+h1{
+    font-size:44px;
+    color:#333;
+    line-height:1.5;
+}
+
+.loading{
+    margin-top:30px;
+    font-size:28px;
+    color:#1565ff;
+    font-weight:bold;
+}
+
+.info{
+    margin-top:40px;
+    font-size:22px;
+    line-height:2;
+    color:#555;
+    text-align:left;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+🗺️<br>
+マイディスクへ戻る
+</h1>
+
+<div class="loading">
+経路を検索しています...
+</div>
+
+<div class="info">
+
+✅ 徒歩＋公共交通機関<br>
+✅ ローカルバス優先<br>
+✅ 到着予定時刻表示<br>
+✅ iPhone / Android対応<br>
+✅ Safari / Edge / Chrome対応
+
+</div>
+
+</div>
+
+<script>
+
+const destination =
+encodeURIComponent("愛知県名古屋市中村区名駅3丁目22-8");
+
+function startRoute(){
+
+    if(!navigator.geolocation){
+
+        alert("GPS非対応です");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position){
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            const url =
+            `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${destination}&travelmode=transit`;
+
+            window.location.href = url;
+        },
+
+        function(){
+
+            alert(
+                "位置情報を取得できませんでした。\n\n位置情報をONにしてください。"
+            );
+        },
+
+        {
+            enableHighAccuracy:true,
+            timeout:10000,
+            maximumAge:0
+        }
+    );
+}
+
+// 起動直後に自動実行
+window.onload = startRoute;
+
+// PWA
+if('serviceWorker' in navigator){
+
+    navigator.serviceWorker.register('sw.js');
+}
+
+</script>
+
+</body>
+</html>
