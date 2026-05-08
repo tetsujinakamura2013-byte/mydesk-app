@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>マイディスクへ戻る</title>
 
@@ -17,18 +18,19 @@
 
 body{
     margin:0;
+    padding:0;
     background:#f0f4ff;
     font-family:sans-serif;
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
 }
 
 .container{
-    background:white;
     width:90%;
     max-width:450px;
+    background:white;
     border-radius:30px;
     padding:40px;
     text-align:center;
@@ -39,21 +41,45 @@ h1{
     font-size:44px;
     color:#333;
     line-height:1.5;
+    margin-bottom:50px;
 }
 
-.loading{
-    margin-top:30px;
-    font-size:28px;
-    color:#1565ff;
+button{
+    width:100%;
+    border:none;
+    border-radius:25px;
+    padding:28px;
+    margin-top:25px;
+    font-size:34px;
     font-weight:bold;
+    color:white;
+    cursor:pointer;
 }
 
-.info{
+button:active{
+    transform:scale(0.97);
+}
+
+.search-btn{
+    background:#1565ff;
+}
+
+.exit-btn{
+    background:#666;
+}
+
+.message{
     margin-top:40px;
     font-size:22px;
-    line-height:2;
     color:#555;
-    text-align:left;
+    line-height:1.8;
+}
+
+.closed{
+    display:none;
+    font-size:40px;
+    color:#444;
+    line-height:2;
 }
 
 </style>
@@ -62,26 +88,35 @@ h1{
 
 <body>
 
-<div class="container">
+<div class="container" id="mainScreen">
 
-<h1>
-🗺️<br>
-マイディスクへ戻る
-</h1>
+    <h1>
+        🗺️<br>
+        マイディスクへ戻る
+    </h1>
 
-<div class="loading">
-経路を検索しています...
+    <button class="search-btn" onclick="searchRoute()">
+        🔍 検索
+    </button>
+
+    <button class="exit-btn" onclick="closeApp()">
+        ❌ 終了
+    </button>
+
+    <div class="message">
+
+        現在地から<br>
+        Googleマップで<br>
+        最適な帰路を検索します
+
+    </div>
+
 </div>
 
-<div class="info">
+<div class="closed" id="closedScreen">
 
-✅ 徒歩＋公共交通機関<br>
-✅ ローカルバス優先<br>
-✅ 到着予定時刻表示<br>
-✅ iPhone / Android対応<br>
-✅ Safari / Edge / Chrome対応
-
-</div>
+    アプリを<br>
+    終了しました
 
 </div>
 
@@ -90,7 +125,7 @@ h1{
 const destination =
 encodeURIComponent("愛知県名古屋市中村区名駅3丁目22-8");
 
-function startRoute(){
+function searchRoute(){
 
     if(!navigator.geolocation){
 
@@ -114,7 +149,7 @@ function startRoute(){
         function(){
 
             alert(
-                "位置情報を取得できませんでした。\n\n位置情報をONにしてください。"
+                "位置情報を取得できませんでした。\\n\\n位置情報をONにしてください。"
             );
         },
 
@@ -126,8 +161,12 @@ function startRoute(){
     );
 }
 
-// 起動直後に自動実行
-window.onload = startRoute;
+function closeApp(){
+
+    document.getElementById("mainScreen").style.display = "none";
+
+    document.getElementById("closedScreen").style.display = "block";
+}
 
 // PWA
 if('serviceWorker' in navigator){
