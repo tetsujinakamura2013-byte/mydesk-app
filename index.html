@@ -36,7 +36,13 @@ body{
     text-align:center;
     box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
+.logo img{
 
+    width:120px;
+    height:120px;
+    border-radius:25px;
+    margin-bottom:25px;
+}
 h1{
     font-size:44px;
     color:#333;
@@ -90,11 +96,17 @@ button:active{
 
 <div class="container" id="mainScreen">
 
-    <h1>
-        🗺️<br>
-        マイディスクへ戻る
-    </h1>
+<div class="logo">
 
+    <img src="icon.png" alt="logo">
+
+</div>
+
+<h1>
+
+    マイディスクへ帰る
+
+</h1>
     <button class="search-btn" onclick="searchRoute()">
         🔍 検索
     </button>
