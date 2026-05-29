@@ -1,170 +1,378 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>マイディスクへ戻る</title>
-
+<title>マイオフィスへ戻る</title>
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#1565ff">
-
+<meta name="color-scheme" content="light dark">
 <link rel="apple-touch-icon" href="icon.png">
-
 <style>
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    padding:0;
-    background:#f0f4ff;
-    font-family:sans-serif;
-    height:100vh;
+    padding:16px;
+    min-height:100vh;
+    background:#edf3ff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:#243044;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
 .container{
-    width:90%;
-    max-width:450px;
-    background:white;
-    border-radius:30px;
-    padding:40px;
+    width:100%;
+    max-width:430px;
+    background:#fff;
+    border-radius:22px;
+    padding:22px 18px 18px;
     text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    box-shadow:0 12px 28px rgba(35,55,90,0.16);
 }
-.logo img{
 
-    width:120px;
-    height:120px;
-    border-radius:25px;
-    margin-bottom:25px;
+.logo img{
+    width:82px;
+    height:82px;
+    border-radius:20px;
+    margin-bottom:14px;
 }
+
 h1{
-    font-size:44px;
-    color:#333;
+    margin:0 0 16px;
+    font-size:32px;
+    line-height:1.25;
+    color:#172033;
+}
+
+.status-panel{
+    display:grid;
+    gap:8px;
+    margin-bottom:16px;
+}
+
+.current-location,
+.destination{
+    margin:0;
+    padding:10px 12px;
+    border-radius:12px;
+    font-size:14px;
     line-height:1.5;
-    margin-bottom:50px;
+    overflow-wrap:anywhere;
+}
+
+.current-location{
+    background:#edf8f4;
+    color:#285c4b;
+    font-weight:700;
+}
+
+.destination-area{
+    margin-bottom:16px;
+}
+
+.destination{
+    background:#f4f7fb;
+    color:#435066;
 }
 
 button{
     width:100%;
     border:none;
-    border-radius:25px;
-    padding:28px;
-    margin-top:25px;
-    font-size:34px;
-    font-weight:bold;
+    border-radius:16px;
+    padding:17px 14px;
+    margin:0;
+    font-size:18px;
+    font-weight:700;
     color:white;
     cursor:pointer;
+    touch-action:manipulation;
+}
+
+.btn-content{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+.btn-icon{
+    display:inline-block;
+    line-height:1;
+    flex:0 0 auto;
 }
 
 button:active{
-    transform:scale(0.97);
+    transform:scale(0.98);
 }
 
-.search-btn{
-    background:#1565ff;
+.main-btn{
+    background:linear-gradient(180deg,#1f72ff 0%,#0f55df 100%);
+    padding:26px 18px;
+    min-height:86px;
+    font-size:28px;
+    line-height:1.2;
+    box-shadow:0 12px 22px rgba(21,101,255,0.32);
 }
 
-.exit-btn{
-    background:#666;
+.main-btn .btn-content{
+    gap:10px;
+}
+
+.main-btn .btn-icon{
+    font-size:30px;
+}
+
+.main-btn .btn-subtitle{
+    display:block;
+    margin-top:6px;
+    font-size:13px;
+    font-weight:600;
+    opacity:0.9;
+}
+
+.action-area{
+    display:grid;
+    gap:12px;
+    margin-top:12px;
+}
+
+.lunch-btn{
+    min-height:72px;
+    background:#0f9d73;
+    font-size:18px;
+    line-height:1.35;
+}
+
+.lunch-btn .btn-icon{
+    font-size:24px;
+}
+
+.change-btn{
+    width:auto;
+    min-width:112px;
+    margin-top:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:#e8edf6;
+    color:#243044;
+    font-size:13px;
+    font-weight:700;
 }
 
 .message{
-    margin-top:40px;
-    font-size:22px;
-    color:#555;
-    line-height:1.8;
+    margin-top:14px;
+    font-size:13px;
+    color:#5b6678;
+    line-height:1.6;
 }
 
-.closed{
-    display:none;
-    font-size:40px;
-    color:#444;
-    line-height:2;
+.close-note{
+    margin-top:14px;
+    padding:10px 12px;
+    border-radius:12px;
+    background:#f6f7fa;
+    color:#596579;
+    font-size:13px;
+    font-weight:700;
 }
 
+@media (max-width:380px){
+    body{
+        padding:12px;
+    }
+
+    .container{
+        padding:20px 14px 16px;
+        border-radius:20px;
+    }
+
+    h1{
+        font-size:29px;
+    }
+
+    .main-btn{
+        min-height:84px;
+        font-size:26px;
+    }
+
+    .lunch-btn{
+        min-height:68px;
+        font-size:17px;
+    }
+}
+
+@media (prefers-color-scheme:dark){
+    body{
+        background:#101827;
+        color:#f5f7fb;
+    }
+
+    .container{
+        background:#182235;
+        box-shadow:0 12px 28px rgba(0,0,0,0.38);
+    }
+
+    h1{
+        color:#ffffff;
+    }
+
+    .current-location{
+        background:#16382d;
+        color:#b9f5dc;
+    }
+
+    .destination{
+        background:#222d42;
+        color:#d7deea;
+    }
+
+    .change-btn{
+        background:#303a4f;
+        color:#f5f7fb;
+    }
+
+    .main-btn{
+        background:linear-gradient(180deg,#3b82ff 0%,#1d5ee8 100%);
+        box-shadow:0 12px 24px rgba(49,120,255,0.34);
+    }
+
+    .lunch-btn{
+        background:#12a879;
+    }
+
+    .message{
+        color:#c1cad8;
+    }
+
+    .close-note{
+        background:#222d42;
+        color:#d7deea;
+    }
+}
 </style>
-
 </head>
-
 <body>
-
 <div class="container" id="mainScreen">
-
-<div class="logo">
-
-    <img src="icon.png" alt="logo">
-
-</div>
-
-<h1>
-
-    マイディスクへ帰る
-
-</h1>
-    <button class="search-btn" onclick="searchRoute()">
-        🔍 検索
-    </button>
-
-    <button class="exit-btn" onclick="closeApp()">
-        ❌ 終了
-    </button>
-
-    <div class="message">
-
-        現在地から<br>
-        Googleマップで<br>
-        最適な帰路を検索します
-
+    <div class="logo">
+        <img src="icon.png" alt="マイオフィスへ戻る">
     </div>
 
-</div>
+    <h1>マイオフィスへ戻る</h1>
 
-<div class="closed" id="closedScreen">
+    <div class="destination-area">
+        <div class="status-panel">
+            <div class="current-location" id="currentLocationLabel">現在地：確認中</div>
+            <div class="destination" id="destinationLabel"></div>
+        </div>
+        <button class="change-btn" type="button" onclick="changeDestination()">
+            <span class="btn-content"><span class="btn-icon" aria-hidden="true">✏️</span><span>目的地変更</span></span>
+        </button>
+    </div>
 
-    アプリを<br>
-    終了しました
+    <button class="main-btn" type="button" onclick="openTransitRoute()">
+        <span class="btn-content"><span class="btn-icon" aria-hidden="true">🔍</span><span>ルート検索</span></span>
+        <span class="btn-subtitle">最適ルート検索</span>
+    </button>
 
+    <div class="action-area">
+        <button class="lunch-btn" type="button" onclick="openLunchSearch()">
+            <span class="btn-content"><span class="btn-icon" aria-hidden="true">🍴</span><span>近くのランチを探す</span></span>
+        </button>
+    </div>
+
+    <div class="message">
+        目的地変更はこの画面を開いている間だけ有効です。<br>
+        再読み込みすると既定の目的地に戻ります。
+    </div>
+
+    <div class="close-note">ブラウザを閉じると終了します</div>
 </div>
 
 <script>
+const defaultDestination = "名古屋市中村区名駅3-22-8";
+let currentDestination = defaultDestination;
 
-const destination =
-encodeURIComponent("愛知県名古屋市中村区名駅3丁目22-8");
+function updateDestinationLabel(){
+    document.getElementById("destinationLabel").textContent =
+        `目的地: ${currentDestination}`;
+}
 
-function searchRoute(){
+function updateCurrentLocationLabel(message){
+    document.getElementById("currentLocationLabel").textContent =
+        `現在地：${message}`;
+}
+
+function encodedDestination(){
+    return encodeURIComponent(currentDestination);
+}
+
+function openMapUrl(url, sameTab){
+    if(sameTab){
+        window.location.href = url;
+        return;
+    }
+
+    window.open(url, "_blank", "noopener");
+}
+
+function openRoute(travelMode){
+    const url =
+        `https://www.google.com/maps/dir/?api=1&destination=${encodedDestination()}&travelmode=${travelMode}`;
+
+    openMapUrl(url, true);
+}
+
+function openTransitRoute(){
+    openRoute("transit");
+}
+
+function changeDestination(){
+    const nextDestination = window.prompt("目的地を入力してください", currentDestination);
+
+    if(nextDestination === null){
+        return;
+    }
+
+    const trimmedDestination = nextDestination.trim();
+
+    if(trimmedDestination === ""){
+        alert("目的地を入力してください。");
+        return;
+    }
+
+    currentDestination = trimmedDestination;
+    updateDestinationLabel();
+}
+
+function openLunchSearch(){
+    const query = encodeURIComponent("現在地周辺 ランチ 1000円 評価高い");
 
     if(!navigator.geolocation){
-
-        alert("GPS非対応です");
+        updateCurrentLocationLabel("現在地未取得");
+        openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, false);
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
-
         function(position){
+            updateCurrentLocationLabel("現在地取得済み");
 
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
-
             const url =
-            `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${destination}&travelmode=transit`;
+                `https://www.google.com/maps/search/?api=1&query=${query}&center=${lat},${lng}`;
 
-            window.location.href = url;
+            openMapUrl(url, false);
         },
-
         function(){
-
-            alert(
-                "位置情報を取得できませんでした。\\n\\n位置情報をONにしてください。"
-            );
+            updateCurrentLocationLabel("現在地未取得");
+            openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, false);
         },
-
         {
             enableHighAccuracy:true,
             timeout:10000,
@@ -173,20 +381,33 @@ function searchRoute(){
     );
 }
 
-function closeApp(){
+function updateCurrentLocation(){
+    if(!navigator.geolocation){
+        updateCurrentLocationLabel("現在地未取得");
+        return;
+    }
 
-    document.getElementById("mainScreen").style.display = "none";
-
-    document.getElementById("closedScreen").style.display = "block";
+    navigator.geolocation.getCurrentPosition(
+        function(){
+            updateCurrentLocationLabel("現在地取得済み");
+        },
+        function(){
+            updateCurrentLocationLabel("現在地未取得");
+        },
+        {
+            enableHighAccuracy:true,
+            timeout:10000,
+            maximumAge:0
+        }
+    );
 }
 
-// PWA
-if('serviceWorker' in navigator){
+updateDestinationLabel();
+updateCurrentLocation();
 
-    navigator.serviceWorker.register('sw.js');
+if("serviceWorker" in navigator){
+    navigator.serviceWorker.register("sw.js");
 }
-
 </script>
-
 </body>
 </html>
