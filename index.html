@@ -350,35 +350,7 @@ function changeDestination(){
 }
 
 function openLunchSearch(){
-    const query = encodeURIComponent("現在地周辺 ランチ 1000円 評価高い");
-
-    if(!navigator.geolocation){
-        updateCurrentLocationLabel("現在地未取得");
-        openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, false);
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        function(position){
-            updateCurrentLocationLabel("現在地取得済み");
-
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const url =
-                `https://www.google.com/maps/search/?api=1&query=${query}&center=${lat},${lng}`;
-
-            openMapUrl(url, false);
-        },
-        function(){
-            updateCurrentLocationLabel("現在地未取得");
-            openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, false);
-        },
-        {
-            enableHighAccuracy:true,
-            timeout:10000,
-            maximumAge:0
-        }
-    );
+    openMapUrl("https://www.google.com/maps/search/?api=1&query=ランチ", true);
 }
 
 function updateCurrentLocation(){
