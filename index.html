@@ -80,6 +80,18 @@ h1{
     color:#435066;
 }
 
+.location-hint{
+    display:none;
+    margin-top:-4px;
+    color:#a33a3a;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.location-hint.is-visible{
+    display:block;
+}
+
 button{
     width:100%;
     border:none;
@@ -164,11 +176,28 @@ button:active{
     font-weight:700;
 }
 
-.message{
-    margin-top:14px;
+.destination-controls{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.home-btn{
+    width:auto;
+    min-width:126px;
+    margin-top:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:#f0f4ff;
+    color:#1f4aa8;
+    border:1px solid #cad8ff;
     font-size:13px;
-    color:#5b6678;
-    line-height:1.6;
+    font-weight:700;
+}
+
+.home-btn.is-hidden{
+    display:none;
 }
 
 .close-note{
@@ -236,6 +265,12 @@ button:active{
         color:#f5f7fb;
     }
 
+    .home-btn{
+        background:#25334c;
+        color:#dce7ff;
+        border-color:#40577f;
+    }
+
     .main-btn{
         background:linear-gradient(180deg,#3b82ff 0%,#1d5ee8 100%);
         box-shadow:0 12px 24px rgba(49,120,255,0.34);
@@ -245,8 +280,8 @@ button:active{
         background:#12a879;
     }
 
-    .message{
-        color:#c1cad8;
+    .location-hint{
+        color:#ffb4b4;
     }
 
     .close-note{
@@ -266,12 +301,18 @@ button:active{
 
     <div class="destination-area">
         <div class="status-panel">
-            <div class="current-location" id="currentLocationLabel">現在地：確認中</div>
+            <div class="current-location" id="currentLocationLabel">🟡 位置情報取得中</div>
+            <div class="location-hint" id="locationHint">位置情報の利用を許可してください</div>
             <div class="destination" id="destinationLabel"></div>
         </div>
-        <button class="change-btn" type="button" onclick="changeDestination()">
-            <span class="btn-content"><span class="btn-icon" aria-hidden="true">✏️</span><span>目的地変更</span></span>
-        </button>
+        <div class="destination-controls">
+            <button class="change-btn" type="button" onclick="changeDestination()">
+                <span class="btn-content"><span class="btn-icon" aria-hidden="true">✏️</span><span>目的地変更</span></span>
+            </button>
+            <button class="home-btn is-hidden" id="defaultDestinationButton" type="button" onclick="resetDestination()">
+                <span class="btn-content"><span class="btn-icon" aria-hidden="true">🏢</span><span>大東海ビル</span></span>
+            </button>
+        </div>
     </div>
 
     <button class="main-btn" type="button" onclick="openTransitRoute()">
@@ -285,26 +326,44 @@ button:active{
         </button>
     </div>
 
-    <div class="message">
-        目的地変更はこの画面を開いている間だけ有効です。<br>
-        再読み込みすると既定の目的地に戻ります。
-    </div>
-
     <div class="close-note">ブラウザを閉じると終了します</div>
 </div>
 
 <script>
-const defaultDestination = "名古屋市中村区名駅3-22-8";
-let currentDestination = defaultDestination;
+const defaultDestinationAddress = "名古屋市中村区名駅3-22-8";
+const defaultDestinationName = "大東海ビル";
+let currentDestination = defaultDestinationAddress;
+let currentDestinationName = defaultDestinationName;
+let isDefaultDestination = true;
 
 function updateDestinationLabel(){
     document.getElementById("destinationLabel").textContent =
-        `目的地: ${currentDestination}`;
+        `目的地：${currentDestinationName}`;
+
+    document.getElementById("defaultDestinationButton").classList.toggle(
+        "is-hidden",
+        isDefaultDestination
+    );
 }
 
-function updateCurrentLocationLabel(message){
-    document.getElementById("currentLocationLabel").textContent =
-        `現在地：${message}`;
+function updateCurrentLocationStatus(status){
+    const locationLabel = document.getElementById("currentLocationLabel");
+    const locationHint = document.getElementById("locationHint");
+
+    if(status === "ok"){
+        locationLabel.textContent = "🟢 位置情報OK";
+        locationHint.classList.remove("is-visible");
+        return;
+    }
+
+    if(status === "ng"){
+        locationLabel.textContent = "🔴 位置情報NG";
+        locationHint.classList.add("is-visible");
+        return;
+    }
+
+    locationLabel.textContent = "🟡 位置情報取得中";
+    locationHint.classList.remove("is-visible");
 }
 
 function encodedDestination(){
@@ -346,6 +405,15 @@ function changeDestination(){
     }
 
     currentDestination = trimmedDestination;
+    currentDestinationName = trimmedDestination;
+    isDefaultDestination = false;
+    updateDestinationLabel();
+}
+
+function resetDestination(){
+    currentDestination = defaultDestinationAddress;
+    currentDestinationName = defaultDestinationName;
+    isDefaultDestination = true;
     updateDestinationLabel();
 }
 
@@ -354,17 +422,19 @@ function openLunchSearch(){
 }
 
 function updateCurrentLocation(){
+    updateCurrentLocationStatus("loading");
+
     if(!navigator.geolocation){
-        updateCurrentLocationLabel("現在地未取得");
+        updateCurrentLocationStatus("ng");
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
         function(){
-            updateCurrentLocationLabel("現在地取得済み");
+            updateCurrentLocationStatus("ok");
         },
         function(){
-            updateCurrentLocationLabel("現在地未取得");
+            updateCurrentLocationStatus("ng");
         },
         {
             enableHighAccuracy:true,
