@@ -149,6 +149,7 @@ button:active{
 
 .action-area{
     display:grid;
+    grid-template-columns:1fr 1fr;
     gap:12px;
     margin-top:12px;
 }
@@ -156,12 +157,28 @@ button:active{
 .lunch-btn{
     min-height:72px;
     background:#0f9d73;
-    font-size:18px;
+    font-size:16px;
     line-height:1.35;
 }
 
 .lunch-btn .btn-icon{
-    font-size:24px;
+    font-size:22px;
+}
+
+.lunch-btn .btn-content{
+    flex-direction:column;
+    gap:7px;
+}
+
+.btn-caption{
+    display:block;
+    font-size:11px;
+    font-weight:600;
+    opacity:0.88;
+}
+
+.destination-lunch-btn{
+    background:#4c66d9;
 }
 
 .change-btn{
@@ -231,7 +248,11 @@ button:active{
 
     .lunch-btn{
         min-height:68px;
-        font-size:17px;
+        font-size:15px;
+    }
+
+    .btn-caption{
+        font-size:10px;
     }
 }
 
@@ -280,6 +301,10 @@ button:active{
         background:#12a879;
     }
 
+    .destination-lunch-btn{
+        background:#6075ea;
+    }
+
     .location-hint{
         color:#ffb4b4;
     }
@@ -321,8 +346,12 @@ button:active{
     </button>
 
     <div class="action-area">
-        <button class="lunch-btn" type="button" onclick="openLunchSearch()">
-            <span class="btn-content"><span class="btn-icon" aria-hidden="true">🍴</span><span>近くのランチを探す</span></span>
+        <button class="lunch-btn" type="button" onclick="openCurrentLocationLunchSearch()">
+            <span class="btn-content"><span class="btn-icon" aria-hidden="true">🍴</span><span>現在地ランチ</span><span class="btn-caption">今いる場所周辺</span></span>
+        </button>
+
+        <button class="lunch-btn destination-lunch-btn" type="button" onclick="openDestinationLunchSearch()">
+            <span class="btn-content"><span class="btn-icon" aria-hidden="true">🏁</span><span>目的地ランチ</span><span class="btn-caption">目的地周辺</span></span>
         </button>
     </div>
 
@@ -417,8 +446,14 @@ function resetDestination(){
     updateDestinationLabel();
 }
 
-function openLunchSearch(){
+function openCurrentLocationLunchSearch(){
     openMapUrl("https://www.google.com/maps/search/?api=1&query=ランチ", true);
+}
+
+function openDestinationLunchSearch(){
+    const query = encodeURIComponent(`${currentDestinationName} ランチ`);
+
+    openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, true);
 }
 
 function updateCurrentLocation(){
