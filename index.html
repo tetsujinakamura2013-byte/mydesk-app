@@ -451,7 +451,7 @@ function openCurrentLocationLunchSearch(){
 }
 
 function openDestinationLunchSearch(){
-    const query = encodeURIComponent(`${currentDestinationName} ランチ`);
+    const query = encodeURIComponent(`${currentDestinationName} 周辺 ランチ`);
 
     openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, true);
 }
