@@ -447,35 +447,7 @@ function resetDestination(){
 }
 
 function openCurrentLocationLunchSearch(){
-    const lunchUrl = "https://www.google.com/maps/search/?api=1&query=ランチ";
-
-    updateCurrentLocationStatus("loading");
-
-    if(!navigator.geolocation){
-        updateCurrentLocationStatus("ng");
-        openMapUrl(lunchUrl, true);
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        function(position){
-            updateCurrentLocationStatus("ok");
-
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-
-            openMapUrl(`https://www.google.com/maps/search/${encodeURIComponent("ランチ")}/@${lat},${lng},16z`, true);
-        },
-        function(){
-            updateCurrentLocationStatus("ng");
-            openMapUrl(lunchUrl, true);
-        },
-        {
-            enableHighAccuracy:true,
-            timeout:10000,
-            maximumAge:0
-        }
-    );
+    openMapUrl("https://www.google.com/maps/search/?api=1&query=近くのランチ", true);
 }
 
 function openDestinationLunchSearch(){
