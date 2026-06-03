@@ -151,7 +151,15 @@ button:active{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
-    margin-top:12px;
+    margin-top:8px;
+}
+
+.lunch-guide{
+    margin:10px 0 0;
+    color:#657184;
+    font-size:12px;
+    font-weight:700;
+    line-height:1.4;
 }
 
 .lunch-btn{
@@ -305,6 +313,10 @@ button:active{
         background:#6075ea;
     }
 
+    .lunch-guide{
+        color:#c6d0df;
+    }
+
     .location-hint{
         color:#ffb4b4;
     }
@@ -344,6 +356,8 @@ button:active{
         <span class="btn-content"><span class="btn-icon" aria-hidden="true">🔍</span><span>ルート検索</span></span>
         <span class="btn-subtitle">最適ルート検索</span>
     </button>
+
+    <div class="lunch-guide">🍜 先にルート検索 → その後ランチ検索</div>
 
     <div class="action-area">
         <button class="lunch-btn" type="button" onclick="openCurrentLocationLunchSearch()">
