@@ -461,11 +461,11 @@ function resetDestination(){
 }
 
 function openCurrentLocationLunchSearch(){
-    openMapUrl("https://www.google.com/maps/search/ランチ+near+me", true);
+    openMapUrl("https://www.google.com/maps/search/ランチ+1000円前後+near+me", true);
 }
 
 function openDestinationLunchSearch(){
-    const query = encodeURIComponent(`${currentDestinationName} 周辺 ランチ`);
+    const query = encodeURIComponent(`${currentDestinationName} 周辺 ランチ 1000円前後`);
 
     openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, true);
 }
