@@ -225,6 +225,16 @@ button:active{
     display:none;
 }
 
+.manual-btn{
+    margin-top:12px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:#eef3fb;
+    color:#344966;
+    font-size:14px;
+    font-weight:700;
+}
+
 .close-note{
     margin-top:14px;
     padding:10px 12px;
@@ -300,6 +310,11 @@ button:active{
         border-color:#40577f;
     }
 
+    .manual-btn{
+        background:#25334c;
+        color:#dce7ff;
+    }
+
     .main-btn{
         background:linear-gradient(180deg,#3b82ff 0%,#1d5ee8 100%);
         box-shadow:0 12px 24px rgba(49,120,255,0.34);
@@ -368,6 +383,10 @@ button:active{
             <span class="btn-content"><span class="btn-icon" aria-hidden="true">🏁</span><span>目的地ランチ</span><span class="btn-caption">目的地周辺</span></span>
         </button>
     </div>
+
+    <button class="manual-btn" type="button" onclick="openManual()">
+        <span class="btn-content"><span class="btn-icon" aria-hidden="true">📘</span><span>使い方</span></span>
+    </button>
 
     <div class="close-note">ブラウザを閉じると終了します</div>
 </div>
@@ -468,6 +487,10 @@ function openDestinationLunchSearch(){
     const query = encodeURIComponent(`${currentDestinationName} 周辺 ランチ 1000円前後`);
 
     openMapUrl(`https://www.google.com/maps/search/?api=1&query=${query}`, true);
+}
+
+function openManual(){
+    window.open("manual.png", "_blank");
 }
 
 function updateCurrentLocation(){
