@@ -235,6 +235,36 @@ button:active{
     font-weight:700;
 }
 
+.manual-screen{
+    display:none;
+    width:100%;
+    max-width:430px;
+    padding:16px 0 22px;
+}
+
+.manual-screen.is-visible{
+    display:block;
+}
+
+.back-btn{
+    margin-bottom:12px;
+    padding:13px 14px;
+    border-radius:14px;
+    background:#eef3fb;
+    color:#344966;
+    font-size:15px;
+    font-weight:700;
+}
+
+.manual-image{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:14px;
+    background:#fff;
+    box-shadow:0 10px 24px rgba(35,55,90,0.14);
+}
+
 .close-note{
     margin-top:14px;
     padding:10px 12px;
@@ -315,6 +345,16 @@ button:active{
         color:#dce7ff;
     }
 
+    .back-btn{
+        background:#25334c;
+        color:#dce7ff;
+    }
+
+    .manual-image{
+        background:#182235;
+        box-shadow:0 10px 24px rgba(0,0,0,0.38);
+    }
+
     .main-btn{
         background:linear-gradient(180deg,#3b82ff 0%,#1d5ee8 100%);
         box-shadow:0 12px 24px rgba(49,120,255,0.34);
@@ -391,6 +431,13 @@ button:active{
     <div class="close-note">ブラウザを閉じると終了します</div>
 </div>
 
+<div class="manual-screen" id="manualScreen">
+    <button class="back-btn" type="button" onclick="closeManual()">
+        ← アプリに戻る
+    </button>
+    <img class="manual-image" src="manual.png" alt="使い方">
+</div>
+
 <script>
 const defaultDestinationAddress = "名古屋市中村区名駅3-22-8";
 const defaultDestinationName = "大東海ビル";
@@ -433,12 +480,7 @@ function encodedDestination(){
 }
 
 function openMapUrl(url, sameTab){
-    if(sameTab){
-        window.location.href = url;
-        return;
-    }
-
-    window.open(url, "_blank", "noopener");
+    window.location.href = url;
 }
 
 function openRoute(travelMode){
@@ -490,7 +532,15 @@ function openDestinationLunchSearch(){
 }
 
 function openManual(){
-    window.open("manual.png", "_blank");
+    document.getElementById("mainScreen").style.display = "none";
+    document.getElementById("manualScreen").classList.add("is-visible");
+    window.scrollTo(0, 0);
+}
+
+function closeManual(){
+    document.getElementById("manualScreen").classList.remove("is-visible");
+    document.getElementById("mainScreen").style.display = "block";
+    window.scrollTo(0, 0);
 }
 
 function updateCurrentLocation(){
